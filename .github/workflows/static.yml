@@ -1,0 +1,67 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+            - name: Add Badges
+  # You may pin to the exact commit or the version.
+  # uses: wow-actions/add-badges@43f2c1eaecfb2596b89a8136a3fbda4f18d1d188
+  uses: wow-actions/add-badges@v1.1.0
+  with:
+    # Your GitHub token for authentication.
+    GITHUB_TOKEN: 
+    # The badges to add with JSON format
+    badges: # optional
+    # Path and file name to add badges
+    path: # optional, default is README.md
+    # Should center align the badges
+    center: # optional
+    # Commit message of the github action.
+    commit_message: # optional, default is docs: add badges [skip ci]
+    # The name of the author or committer of the commit.
+    committer_name: # optional, default is github-actions[bot]
+    # The email of the author or committer of the commit.
+    committer_email: # optional, default is github-actions[bot]@users.noreply.github.com
+    # Opening comment
+    opening_comment: # optional, default is <!-- [START BADGES] -->
+    # Closing comment
+    closing_comment: # optional, default is <!-- [END BADGES] -->
+          
